@@ -2,6 +2,10 @@
 #include <math.h>
 #include <iomanip>
 
+#include <chrono>
+#include <sys/time.h>
+#include <ctime>
+
 // Two blocks with mass ratio 1 : 100 ^ n (n being natural number),
 // the bigger block having initial velocity v,
 // collide perfectly elasticaly with eachother, and immovable wall
@@ -74,15 +78,23 @@ double pi(int digits){
 }
 
 int main(){
-	
+	// Using fixed decimal points
+	std :: cout << std :: fixed;
 
 	for(int i = 0; i <= 10; i ++){
 		// Setting the number of decimal places
-		std :: cout << std :: fixed << std :: setprecision(i);
-		
+		std :: cout << std :: setprecision(i);
+		// Geting start time
+		auto startTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
 		std :: cout << i << " digits of Pi calculated using the colliding blocks method : " << std :: endl;
 		std :: cout << pi(i) << std :: endl;
 
+		// Getting end time and calculating time diff in seconds
+		auto endTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+		float timeDiff = endTime - startTime;
+		timeDiff /= 1000;
+		std :: cout << std :: setprecision(3) <<  "The calculation took : " << timeDiff << "s\n\n";
 	}
 
 	return 0;
